@@ -2,35 +2,32 @@ from flask import Flask,send_from_directory
 
 import os
 
-# from sqlalchemy import create_engine
-# from flask import render_template
+import config.dev
+import config.production
 
-# import Blueprint in a folder
-# from app_home.route import app_home
-# from app_prototype.route import app_prototype
-# from myapp import config --> config.DATABASE_URI
-# from myapp.views import frontend
+def create_app(config='dev'):
+    # create and configure the app
+    app = Flask(__name__)
 
-# App name 
-app = Flask(__name__,static_url_path='/static')
-# app.register_blueprint(app_home,url_prefix='/home')
-# app.register_blueprint(app_prototype,url_prefix='/prototype')
+    if config is 'dev':
+        # load development config -- by default
+        app.config.from_object('config.dev.Development')
+    else:
+        # load production config
+        app.config.from_object('config.production.Production')
 
-# set up your database
-# app.engine = create_engine(database_uri)
+    @app.route('/favicon.ico')
+    def favicon():
+      return send_from_directory(os.path.join(app.root_path, 'static'),'favicon.ico', mimetype='image/vnd.microsoft.icon') 
+      
+    @app.route('/')
+    def index_render():
+      return 'Hello World: Flask is fun!'       
 
-# add your modules
-# app.register_module(frontend)
-
-@app.route('/')
-def hello_world():
-  return 'Hello World: Flask is fun!'
-
-@app.route('/favicon.ico')
-def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'static'),'favicon.ico', mimetype='image/vnd.microsoft.icon')  
+    return app
 
 if __name__ == "__main__":
-  app.run(debug=True)
+  app = create_app(config='dev')
+  app.run()
 
      

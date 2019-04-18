@@ -2,7 +2,7 @@
 # /home/yourusername/mysite/flask_app.py
 
 import sys
-path = ''
+# path = '/home/yourusername/mysite/flask_app.py'
 if path not in sys.path:
    sys.path.insert(0, path)
 
