@@ -1,5 +1,5 @@
-# flask-website
-flask simple boilerplate
+# flask-boilerplate
+flask quick boilerplate
 
 # to start ENV-SERVER
 
